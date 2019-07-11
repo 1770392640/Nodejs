@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/css/bootstrap.css">
+</head>
+<body>
+    
+    <div class="container">
+            <h1 class="text-center">信息系统</h1>
+            <h2 v-show="true==isEdit">添加数据</h2>
+            <h2 v-show="true!=isEdit">修改数据</h2>
+            <form class="form-horizontal">
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    姓名  <input type="text" class="form-control" v-model="name">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    学校 <input type="text" class="form-control"v-model="xs">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                    专业 <input type="text" class="form-control" v-model="zy">
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-success" v-show="true==isEdit" @click="add">提交</button>
+                    <button type="button" class="btn btn-success" v-show="true!=isEdit" @click="editGet">修改</button>
+                  </div>
+                </div>
+              </form>
+            <h2>数据列表 <p class="float-right">搜索<input type="text" v-model="keywords"></p></h2>
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>姓名</th>
+                        <th>学校</th>
+                        <th>专业</th>
+                        <th>添加时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in search(keywords)">
+                        <td>{{index+1}}</td>
+                        <td>{{item.name}}</td> 
+                        <td>{{item.xs}}</td>
+                        <td>{{item.zy}}</td>
+                        <td>{{item.datetime | dateFormat}}</td>
+                        <td>
+                        <a href="#" class="btn btn-danger" @click="remove(index)">删除</a>
+                        <a href="#" class="btn btn-warning" @click="edit(index)">修改</a>
+                        
+                        </td>
+                    </tr>
+
+                    
+                </tbody>
+            </table>
+            
+    </div>
+    
+</body>
+</html>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.js"></script>
+<script>
+
+    // 全局过滤器
+   /*  Vue.filter("dateFormat",function(dateString){
+        console.log(dateString)
+        var dd = new Date(dateString)
+        var y = dd.getFullYear()
+        var m = dd.getMonth()
+        var d = dd.getDay()
+
+        var h = dd.getHours()
+        var mm = dd.getMinutes()
+        var ss = dd.getSeconds()
+
+        return `${y}-${m}-${d}  ${h}:${mm}:${ss} `
+
+    }) */
+
+    var vm = new Vue({
+        el:".container",
+        data:{
+            name:"",
+            xs:"",
+            zy:"",
+            isEdit:true,
+            editId:null,
+            keywords:"",
+            data:[],
+            list:[
+                
+            ]
+        },
+        created(){
+            this.getDate()
+            // console.log("_this.list====>",this.list)
+           
+        },
+        methods:{
+            add(){
+                this.list.push({name:this.name,xs:this.xs,zy:this.zy,datetime:new Date()})
+                this.name = this.xs = this.zy = ""
+            },
+            remove(index){
+                // console.log("index===>",index)
+                this.list.splice(index,1)
+                console.log(this.list)
+            },
+            edit(index){
+                this.name = this.list[index].name;
+                this.xs = this.list[index].xs;
+                this.zy = this.list[index].zy;
+                this.isEdit = false;
+                this.editId = index;
+            },
+            editGet(){
+                this.list[this.editId].name = this.name;
+                this.list[this.editId].xs = this.xs;
+                this.list[this.editId].zy = this.zy;
+                this.isEdit = true;
+                this.name = this.xs = this.zy = ""
+            },
+            search(keywords){
+                this.getDate()
+                /* var newlist = []
+                this.list.forEach(item=> {
+                if(item.name.indexOf(keywords) != -1){
+                    newlist.push(item)
+                    }
+                });
+                return newlist; */
+
+
+                //es6 语法 包含返回true 不包含返回false
+               return this.list.filter(item=>{
+                    if(item.name.includes(keywords)){
+                        return item;
+                    }
+                })
+               
+            },
+            getDate(){
+                var _this = this;
+               axios.get("http://127.0.0.1:3000/api/student").then(function(result){
+                   _this.list = result.data.result
+                //    console.log("_this.list====>",_this.list)
+                    
+               }) 
+            }
+        },
+        filters:{
+            dateFormat(dateString){
+                var dd = new Date(dateString)
+                var y = dd.getFullYear()
+                var m = dd.getMonth()
+                var d = dd.getDay()
+
+                var h = dd.getHours()
+                var mm = dd.getMinutes()
+                var ss = dd.getSeconds()
+
+                return `${y}-${m}-${d}  ${h}:${mm}:${ss} `
+            }
+        }
+    })
+</script>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> API首页</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-4">
+            <h2>搜索结果</h2>
+        </div>
+        <div class="col-sm-8">
+            <div class="title-action">
+                <a href="/api" class="btn btn-primary">返回</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content">
+        <table class="table table-hover">
+           <thead>
+               <tr>
+                   <th>序号</th>
+                   <th>名称</th>
+                   <th>api路径</th>
+                   <th>ID</th>
+               </tr>
+           </thead>
+           <tbody>
+            <% result.forEach(function(item,index){%>
+                <tr>
+                    <td><%=index%></td>
+                    <td><a href="#"><%=item.name%></a></td>
+                    <td><a href="<%=item.apiUrl%>"><%=item.apiUrl%></a></td>
+                    <td><a href="#"><%=item.id%></a></td>
+                    
+                </tr>
+                <% }) %>
+        </tbody>
+
+    </div>
+
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="/js/content.js?v=1.0.0"></script>
+
+    
+    
+
+</body>
+
+</html>
+
+
+
+
+
+

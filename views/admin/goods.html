@@ -1,0 +1,65 @@
+<%-include("header.html")%>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>商品列表</h2>
+    </div>
+    <div class="col-sm-8">
+        <div class="title-action">
+            <a href="/admin/goods/add" class="btn btn-success">添加商品</a>
+        </div>
+    </div>
+</div>
+<!-- 表格 -->
+<div class="ibox float-e-margins">
+        
+    <div class="ibox-content">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>缩略图</th>
+                    <th>标题</th>
+                    <th>地址</th>
+                    <th>价格</th>
+                    <th>旧价格</th>
+                    <th>收藏</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <% result.forEach(function(item,index){ %>
+                        <tr>
+                            <td><%=index%></td>
+                            <td><img src="<%=item.thumbnail%>" alt="" width="50" height="50"></td>
+                            <td><%=item.title%></td>
+                            <td><%=item.address%></td>
+                            <td><%=item.price%></td>
+                            <td><%=item.oldPrice%></td>
+                            <td><%=item.iscollect?"收藏":"未收藏"%></td>
+                            <td>
+                                <a href="/admin/goods/del?id=<%=item._id%>" type="button" class="btn btn-danger">删除</a> 
+                                <a href="/admin/goods/edit?id=<%=item._id%>" type="button" class="btn btn-warning">修改</a>         
+                            </td>
+                        </tr>
+                        <% }) %> 
+            </tbody>
+        </table>
+        <!-- 分页 -->
+        <div class="ibox-content text-center">
+            <div class="btn-group">
+                <% for(var i = 0; i < pageCount; i++){ %>
+                <a href="/admin/goods?page=<%=i%>" class="btn btn-white"><%=i+1%></a>
+                <%}%>
+            </div>
+        </div>
+    
+            <!-- 分页 end -->
+
+    </div>
+</div>
+
+<!-- 表格 end -->
+
+
+<%-include("footer.html")%>

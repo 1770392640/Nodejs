@@ -1,0 +1,64 @@
+<%-include("header.html")%>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>分类列表</h2>
+    </div>
+    <div class="col-sm-8">
+        <div class="title-action">
+            <a href="#" class="btn btn-success">添加数据</a>
+        </div>
+    </div>
+</div>
+<!-- 表格 -->
+<div class="ibox float-e-margins">
+        
+    <div class="ibox-content">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>描述</th>
+                    <th>浏览量</th>
+                    <th>图片路径</th>
+                    <th>分类</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% result.forEach(function(item,index){%>
+                    <tr>
+                        <td class="col-sm-1"><%=index%></td>
+                        <td class="col-sm-2"><%=item.name%></td>
+                        <td class="col-sm-3"><%=item.text%></td>
+                        <td class="col-sm-1"><%=item.bookmark%></td>
+                        <td class="col-sm-4"><%=item.profile_image%></td>
+                        <td class="col-sm-1"><%=item.theme_name%></td>
+                        <td class="col-sm-3"><%=item.created_at%></td>
+                        <td>
+                            <a href="/admin/jokes/del?id=<%=item._id%>" type="button" class="btn btn-danger">删除</a>        
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+        <!-- 分页 -->
+        <div class="ibox-content text-center">
+            <div class="btn-group">
+                <% for(var i = 0; i < pageCount; i++){ %>
+                <a href="/admin/jokes?page=<%=i%>" class="btn btn-white"><%=i+1%></a>
+                <%}%>
+            </div>
+        </div>
+
+        <!-- 分页 end -->
+    </div>
+</div>
+
+<!-- 表格 end -->
+
+
+
+<%-include("footer.html")%>
